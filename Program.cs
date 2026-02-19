@@ -98,6 +98,14 @@ app.MapRazorPages()
 
 // await SecureAgentPortal.Data.RoleSeeder.SeedAsync(app.Services);
 // await SecureAgentPortal.Data.IdentitySeeder.SeedAsync(app.Services, app.Configuration);
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate(); // creates DB + tables if missing
+}
+
 await RoleSeeder.SeedAsync(app.Services, app.Configuration);
 
 app.Run();
