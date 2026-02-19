@@ -1,9 +1,4 @@
-## Admin Seeding (Development Only)
+## Admin Account
 
-To seed an admin account locally:
-
-export SEED_ADMIN_EMAIL="admin@secureportal.local"
-export SEED_ADMIN_PASSWORD='Admin!23456'
-dotnet run
-
-If no environment variables are provided, no admin user will be created.
+ADMIN_EMAIL="admin@secureportal.local"
+ADMIN_PASSWORD='Admin!23456'
