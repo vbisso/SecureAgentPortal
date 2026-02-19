@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "Create Transaction";
+}
+
+<h2>Create Transaction</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var err in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div>@err.ErrorMessage</div>
+        }
+    </div>
+}
+
+<form asp-action="Create" method="post" class="mt-3">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label class="form-label">Payee Name</label>
+        <input name="payeeName" class="form-control" placeholder="John Smith" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Amount</label>
+        <input name="amount" type="number" step="0.01" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Currency</label>
+        <input name="currency" value="USD" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+</form>

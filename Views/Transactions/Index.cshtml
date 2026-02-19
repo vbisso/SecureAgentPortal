@@ -1,0 +1,53 @@
+@model List<SecureAgentPortal.Models.Domain.Transaction>
+
+@{
+    ViewData["Title"] = "Transactions";
+}
+
+<div class="d-flex justify-content-between align-items-center">
+    <h2>Transactions</h2>
+    <a class="btn btn-primary" asp-action="Create">New Transaction</a>
+</div>
+
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Reference</th>
+            <th>Payee</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Created (UTC)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var tx in Model)
+    {
+        <tr>
+            <td>@tx.ReferenceId</td>
+            <td>@tx.PayeeName</td>
+            <td>@tx.Amount @tx.Currency</td>
+            <td>@tx.Status</td>
+            <td>@tx.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+            <td>
+                @if (tx.Status == "Pending")
+                {
+                    <form asp-action="Approve" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@tx.Id" />
+                        <button class="btn btn-sm btn-success">Approve</button>
+                    </form>
+
+                    <form asp-action="Reject" method="post" class="d-inline ms-1">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@tx.Id" />
+                        <input type="hidden" name="reason" value="Rejected by admin" />
+                        <button class="btn btn-sm btn-danger">Reject</button>
+                    </form>
+                }
+            </td>
+
+        </tr>
+    }
+    </tbody>
+</table>
